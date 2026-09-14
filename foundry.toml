@@ -1,0 +1,64 @@
+# SPDX-FileCopyrightText: 2026 Klima Protocol
+# SPDX-License-Identifier: MIT
+
+[profile.default]
+# Matches the Relay's own compiler (metadex-public pins 0.8.36); move only when Aero's final code does.
+solc_version = "0.8.36"
+evm_version = "prague"
+optimizer = true
+optimizer_runs = 1_000_000
+bytecode_hash = "ipfs"
+cbor_metadata = true
+skip = ["test/upstream/IRelay.sol", "test/upstream/ILeafVoter.sol"]
+fs_permissions = [
+  { access = "read", path = "./test/upstream" },
+  { access = "read", path = "./out" },
+  { access = "read-write", path = "./verification" },
+]
+
+[profile.ci.fuzz]
+runs = 10_000
+
+[fmt]
+ignore = ["./test/upstream/*.sol", "lib/**"]
+
+[lint]
+exclude_lints = [
+  # src/RelayFeeSkim.sol
+  # state is written after external calls: the transient lock makes that safe
+  "reentrancy-no-eth",
+  # an event is emitted after an external call: Skimmed reports the completed pull on purpose
+  "reentrancy-events",
+  # external calls inside a loop: one balance read and one pull per caller-supplied token is the job
+  "calls-loop",
+  # a revert inside a loop: the sort check must abort on the first unsorted token
+  "require-revert-in-loop",
+  # locals without an initializer: `bool any` and the arrays rely on zero defaults
+  "uninitialized-local",
+  # a raw .call: _safeTransfer must tolerate tokens that return no data
+  "low-level-calls",
+  # modifier logic not moved into a function: six lines, kept inline, used once
+  "unwrapped-modifier-logic",
+  "modifier-used-only-once",
+
+  # tests and scripts
+  # a narrowing cast: bytes4(keccak256(signature)) is how a selector is defined
+  "unsafe-typecast",
+  # ignored return values: calls under vm.expectRevert have none worth reading
+  "unused-return",
+  # readFile, writeJson, etch: the point of the hashes script and the deploy tests
+  "unsafe-cheatcode",
+  # repeated literals: test amounts read better than named constants
+  "literal-instead-of-constant",
+  # the vendored upstream file declares ^0.8.0
+  "pragma-inconsistent",
+
+  # test/mocks
+  # several contracts per file, mocks not inheriting the interfaces they mimic
+  "multi-contract-file",
+  "missing-inheritance",
+  # payable functions with no withdrawal, an empty function body, unchecked addresses
+  "locked-ether",
+  "empty-block",
+  "missing-zero-check",
+]

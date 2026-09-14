@@ -1,0 +1,16 @@
+{
+  "contract": "src/RelayFeeSkim.sol:RelayFeeSkim",
+  "create2Deployer": "0x4e59b44847b379578588920cA78FbF26c0B4956C",
+  "creationCodeKeccak": "0x7c214f6aaf1b5436987404f1dc4e1ed934c8776d60b3e6133bf58a4ad429e58f",
+  "deployment": {
+    "address": "0xa9bE0D3279eC1E0fF5e62be19793A06F47ba88Fb",
+    "constructorArgs": "0x00000000000000000000000000000000000000000000000000000000000001f4000000000000000000000000f624f9fe1d3165c5ca32c7fbdbf82f4a5b1d2d0e",
+    "feeBps": 500,
+    "feeSink": "0xf624f9Fe1D3165c5Ca32c7Fbdbf82f4a5b1D2d0e",
+    "runtimeKeccak": "0x26ca5d6df3f33e0e45e32900630a6bf99fad4540df3fbbd5d8209027475279cc"
+  },
+  "runtimeTemplateKeccak": "0xa3b34fb9dc5f9a8cd140c20191842df529c33fb6243af40227a000878ee8efe7",
+  "salt": "0xbf623e9fcf318358e7aba5a422c42e494e082543f799cec759fb811315f7bf18",
+  "saltPreimage": "klimaprotocol.com/RelayFeeSkim/v1",
+  "solc": "0.8.36+commit.8a079791"
+}
